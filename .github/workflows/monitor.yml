@@ -1,0 +1,30 @@
+name: ASU Course Monitor
+
+on:
+  schedule:
+    - cron: '*/6 * * * *' # Run every 6 minutes
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  check-seats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install requests python-dotenv
+
+      - name: Run Monitor
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: |
+          # Run for ~5.5 minutes (340s), checking every 2 minutes
+          # This fills the 6-minute cron gap
+          python monitor.py --duration 340
