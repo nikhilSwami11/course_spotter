@@ -106,7 +106,7 @@ def check_seat_availability(catalog_nbr):
 
 import argparse
 
-CHECK_INTERVAL = 120 # Check every 2 minutes
+CHECK_INTERVAL = 60 # Check every 1 minute
 
 def main():
     parser = argparse.ArgumentParser()
